@@ -1,29 +1,28 @@
 package com.victorpacanaro.TCCApp.resources;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.victorpacanaro.TCCApp.domain.Rotas;
+import com.victorpacanaro.TCCApp.services.RotasService;
 
 @RestController
 @RequestMapping(value="/rotas") //endpoint rest 
 public class RotaResource {
 	
-	@RequestMapping (method = RequestMethod.GET)
-	public List<Rotas> listar() {
-		
-		Rotas rot1 = new Rotas(1, "Rota A");
-		Rotas rot2 = new Rotas(2, "Rota B");
-		
-		List<Rotas> lista = new ArrayList<>();
-		lista.add(rot1);
-		lista.add(rot2);
-		
-		return lista;
+	@Autowired
+	private RotasService service; 
+	
+	@RequestMapping (value="/{id}", method = RequestMethod.GET)
+	public ResponseEntity<?> find(@PathVariable Integer id) {
+		Rotas obj = service.find(id);
+		return ResponseEntity.ok().body(obj);
 		
 	}
 
